@@ -6,7 +6,7 @@ import {prisma} from "@/lib/prisma";
 import {ActionResult} from "@/types";
 import {User} from "@/generated/prisma";
 import {LoginSchema} from "@/lib/schemas/loginSchema";
-import {signIn, signOut} from "@/auth";
+import {auth, signIn, signOut} from "@/auth";
 import {AuthError} from "next-auth";
 
 
@@ -80,4 +80,11 @@ export async function getUserById(id: string): Promise<User | null> {
         console.error('Get user by ID error:', error);
         return null;
     }
+}
+
+export async function getAuthUserId() {
+    const session = await auth();
+    const userId = session?.user?.id;
+    if (!userId) throw new Error('User not logged in');
+    return userId;
 }
