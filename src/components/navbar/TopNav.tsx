@@ -6,9 +6,11 @@ import {Button} from "@heroui/button";
 import NavLink from "@/components/navbar/NavLink";
 import {auth} from "@/auth";
 import UserMenu from "@/components/navbar/UserMenu";
+import {getUserInfoForNav} from "@/app/actions/userActions";
 
 export default async function TopNav() {
     const session = await auth();
+    const userInfo = session?.user && await getUserInfoForNav();
 
     return (
         <Navbar maxWidth='xl' className='bg-gradient-to-r from-pink-400 to-purple-700'
@@ -29,8 +31,8 @@ export default async function TopNav() {
 
             </NavbarContent>
             <NavbarContent justify='end'>
-                {session?.user ? (
-                    <UserMenu user={session.user}/>
+                {userInfo ? (
+                    <UserMenu user={userInfo}/>
                 ): (
                     <>
                         <Button as={Link} href='/auth/login' variant='bordered'className='text-white'>Login</Button>
