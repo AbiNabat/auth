@@ -1,6 +1,7 @@
 import {getMemberById} from "@/app/actions/membersActions";
 import {CardBody, CardHeader} from "@heroui/card";
 import {Divider} from "@heroui/divider";
+import CardInnerWrapper from "@/components/CardInnerWrapper";
 
 export default async function MemberPage({params}: { params: { userId: string }}) {
     const { userId } = await params;
@@ -9,15 +10,6 @@ export default async function MemberPage({params}: { params: { userId: string }}
         return <div>Member not found</div>
     }
     return (
-        <>
-        <CardHeader className='text-2xl font-semibold text-secondary'>
-            Profile
-        </CardHeader>
-            <Divider />
-
-            <CardBody>
-                {member.description}
-            </CardBody>
-        </>
+      <CardInnerWrapper header='Profile' body={<div>{member.description}</div>} />
     );
 }
