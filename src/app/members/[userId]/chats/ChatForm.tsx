@@ -18,6 +18,8 @@ export default function ChatForm() {
     const {register, handleSubmit, reset, setError, formState: {isSubmitting, isValid, errors}} = useForm<MessageSchema>({
         resolver: zodResolver(messageSchema)
     });
+
+
     const onSubmit = async (data: MessageSchema) => {
         const result = await createMessages(params.userId, data);
         if (result.status === 'error') {

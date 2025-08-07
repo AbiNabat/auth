@@ -35,7 +35,6 @@ export default function MessageBox({message, currentUserId}: Props) {
                 <span className='text-xs text-black text-italic'>(read 4 min ago)</span>
             ): <div className='w-2 h-2 bg-green-500 rounded-full' />}
             <div className='flex '>
-                <span className='text-sm  text-gray-900'>{message.senderName}</span>
                 <span className='text-sm  text-gray-500 ml-2'>{message.createdAt}</span>
             </div>
         </div>
@@ -45,7 +44,7 @@ export default function MessageBox({message, currentUserId}: Props) {
         <div className={messageContentClasses}>
             {renderMessageHeader()}
             <span className='text-sm  font-semibold text-gray-800'>{message.senderName}</span>
-
+            <span className='text-sm  text-gray-700'>{message.text}</span>
         </div>
 )
 
@@ -59,6 +58,7 @@ export default function MessageBox({message, currentUserId}: Props) {
 
                     {renderMessageContent()}
                 {isCurrentUserSender && renderAvatar()}
+
             </div>
         </div>
     );

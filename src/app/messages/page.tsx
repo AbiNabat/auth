@@ -1,12 +1,17 @@
 import React from 'react';
-import CardInnerWrapper from "@/components/CardInnerWrapper";
-import ChatForm from "@/app/members/[userId]/chats/ChatForm";
+import MessageSidebar from "@/app/messages/MessageSidebar";
+
 
 export default function Page() {
     return (
-        <>
-       <CardInnerWrapper header='Chats' body={<div>Chats go here</div>} footer={<ChatForm />} />
+        <div className='grid grid-cols-12 gap-5 h-[80vh] mt-10'>
+        <div className='col-span-2'>
+            <MessageSidebar/>
+        </div>
+            <div className='col-span-10'>
+                Content here
+            </div>
 
-        </>
+        </div>
     );
 }
