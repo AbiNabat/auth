@@ -77,3 +77,49 @@ export async function getMessageThread(recipientUserId: string) {
         return {status: 'error', message: 'An unexpected error occurred'};
     }
 }
+
+export async function getMessagesByContainer(container?: string) {
+    try {
+        const userId = await getAuthUserId();
+
+        // Обеспечиваем корректное значение контейнера
+        const validContainer = container === 'outbox' ? 'outbox' : 'inbox';
+        const selector = validContainer === 'outbox' ? 'sebderId' : 'recipientId';
+
+        const messages = await prisma.message.findMany({
+            where: {
+                [selector]: userId
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            select: {
+                id: true,
+                text: true,
+                createdAt: true,
+                dateRead: true,
+                sender: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        image: true
+                    }
+                },
+                recipient: {
+                    select: {
+                        userId: true,
+                        name: true,
+                        image: true
+                    }
+                }
+            }
+        });
+
+        return messages.map(message => mapMessageDto(message));
+
+    } catch (error) {
+        console.error('Get messages by container error:', error);
+        // Возвращаем пустой массив вместо выбрасывания ошибки
+        return [];
+    }
+}
