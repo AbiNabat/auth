@@ -70,6 +70,16 @@ export async function getMessageThread(recipientUserId: string) {
                 }
             }
         });
+        if (messages.length > 0) {
+            await prisma.message.updateMany({
+                where: {
+                    sebderId: recipientUserId,
+                    recipientId: userId,
+                    dateRead: null
+                },
+                data: {dateRead: new Date()}
+            })
+        }
         return messages.map(message => mapMessageDto(message));
 
     }catch (e) {
